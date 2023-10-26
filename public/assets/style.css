@@ -78,7 +78,7 @@ a {
 }
 
 .form {
-    border: 1px solid #666666;
+    border: 1px solid var(--accent-color, #666666);
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -150,3 +150,21 @@ p.additional {
     justify-content: space-between;
     column-gap: 8px;
 }
+
+.forgot-details {
+    margin-top: 16px;
+    text-align: center
+}
+
+.fallback-form {
+    padding: 24px 0;
+}
+
+button[type=submit].as-link {
+    background: none;
+    text-decoration: underline;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
