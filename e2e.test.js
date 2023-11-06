@@ -25,14 +25,14 @@ const validAuthorisation = Buffer.from(process.env.TEST_PUBLISHABLE_KEY + ':').t
 const invalidAuthorisation = Buffer.from('pk_test_INVALID_KEY:').toString('base64');
 const validInputState = encodeState({
   'request_id': TEST_REQUEST_ID,
-  'provider_id': process.env.TEST_PROVIDER_ID || process.env.PROVIDER_ID, 
+  'provider_id': process.env.TEST_PROVIDER_ID || process.env.PROVIDER_ID,
   'postal_address': {
-    address_line1: '123',
-    address_line2: 'Infinite Drive',
+    address_line1: '1-3',
+    address_line2: 'Strand',
     city: 'London',
-    state: 'Greather London',
-    post_code: 'SE110AA',
-    country_code: 'GB',
+    state: 'Greater London',
+    post_code: 'WC2N 5EH',
+    country_code: 'GB'
   },
 });
 const invalidInputState = '';
