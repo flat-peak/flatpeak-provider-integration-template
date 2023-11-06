@@ -212,4 +212,10 @@ p.error__description {
     text-align: center;
 }
 
+.error-message {
+    text-align: center;
+    padding: 6px;
+    color: #ff0033;
+}
+
 
