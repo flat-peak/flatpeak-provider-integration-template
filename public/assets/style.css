@@ -22,6 +22,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
+    --accent-color: #333333;
     --color-typography-white: #ffffff;
     --color-typography-black: #000000;
     --color-typography-black_a23: #0000003b;
