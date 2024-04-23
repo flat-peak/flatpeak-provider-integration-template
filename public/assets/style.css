@@ -74,7 +74,6 @@ body {
 }
 
 #root {
-    height: 100dvh;
     @media screen and (min-width: 442px) and (min-height: 938px) {
         padding-top: 40px;
     }
@@ -201,7 +200,7 @@ button:active, a:active {
     display: flex;
     flex-direction: column;
     position: relative;
-    overflow: hidden;
+    overflow: auto;
 
     color: var(--color-body, #000000);
     font-family: var(--font-regolapro-book);
@@ -211,10 +210,8 @@ button:active, a:active {
 }
 
 .main {
-    overflow-y: auto;
-    scroll-snap-type: y mandatory;
     flex: 1;
-    padding-bottom: 160px;
+    padding-bottom: 48px;
 }
 
 .main__wrapper {
@@ -235,7 +232,7 @@ button:active, a:active {
 .main__intro {
     padding-left: 0;
     padding-right: 16px;
-    padding-bottom: 64px;
+    padding-bottom: 48px;
     max-width: 340px;
 }
 
@@ -262,10 +259,7 @@ button:active, a:active {
     display: flex;
     flex-direction: column;
     flex: 0 0 auto;
-    position: absolute;
-    left: 0;
     padding: 0 24px 36px;
-    bottom: 0;
     text-align: center;
 }
 
