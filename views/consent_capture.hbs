@@ -7,39 +7,46 @@
     <input type="hidden" name="auth_metadata_id" value="{{auth_metadata_id}}">
 </form>
 
-<div class="viewport theme-light">
-    <div class="viewport__wrapper">
-        <header class="header">
-            <div class="header__logo">
-                <img src="{{provider.logo_url}}" alt="">
-            </div>
-        </header>
-        <article class="content">
-            <main class="main">
-                <div class="main__wrapper">
-                    <div class="main__heading">
-                        <h1 class="title">Data sharing consent</h1>
-                    </div>
-                    <div class="main__intro">
-                        <div class="text-accent">
-                            <p><strong>{{account.display_name}}</strong> wants to access your account. This will allow them to:</p>
-                            <br/>
-                            <ul>
-                                <li>View your electricity tariff</li>
-                                <li>View your email and postal address</li>
-                            </ul>
-                            <br/>
-                            <p>Make sure that you know who they are.</p>
-                        </div>
-                        <br/>
-                        <p>Learn about how <strong>{{account.display_name}}</strong> will handle your data by reviewing their <a href="{{account.policy_url}}">data protection policy</a> and <a href="{{account.terms_url}}">terms of service</a>.</p>
-                    </div>
-                </div>
-            </main>
-            <footer class="footer">
-                <button type="submit" form="allow" class="button--primary">Allow</button>
-                <button type="submit" form="deny" class="button--as-link">Deny</button>
-            </footer>
-        </article>
+<header class="pt-6 pb-3 px-6">
+    <div class="w-40 flex items-center justify-center">
+        <img src="{{provider.logo_url}}" alt="Logo" class="w-full h-full max-w-full max-h-full object-contain">
     </div>
-</div>
+</header>
+<article class="p-0 h-full w-full flex flex-col flex-1 relative overflow-auto font-book text-[17px] font-light leading-6">
+    <main class="main">
+        <div class="main__wrapper">
+            <div class="main__heading">
+                <h1 class="title text-[44px]">Data sharing consent</h1>
+            </div>
+            <div class="pl-0 pr-4 pb-12 max-w-xs lg:max-w-xs">
+                <p>
+                    <strong>{{account.display_name}}</strong> wants to access your account. This will allow them to:
+                </p>
+                <br/>
+                <ul class="list-disc ml-5">
+                    <li>View your electricity tariff</li>
+                    <li>View your email and postal address</li>
+                </ul>
+                <br/>
+                <p>
+					Learn about how <strong>{{account.display_name}}</strong> will handle your data by reviewing their <a href="{{account.policy_url}}">data protection policy</a> and <a href="{{account.terms_url}}">terms of service</a>.
+                </p>
+            </div>
+        </div>
+    </main>
+    <footer class="footer">
+        <button id="submitControl" type="submit" form="allow" class="button--primary">Allow</button>
+        <button type="submit" form="deny" class="button--ghost">Deny</button>
+    </footer>
+</article>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.getElementById("allow");
+        const submitControl = document.getElementById("submitControl");
+        form.addEventListener("submit", function(event) {
+            submitControl.classList.add("animate-fade")
+            submitControl.setAttribute("disabled", "disabled");
+        });
+    });
+</script>

@@ -27,23 +27,31 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// The `integrateProvider` router attaches /, /auth, /share, /cancel
+// The `integrateProvider` router attaches /, /action, /auth_metadata_capture, /consent_capture
 // and /api/tariff_plan routes to the baseURL
 app.use(integrateProvider({
-  pages: /** @type OnboardPages */ {
+  pages: {
     auth_metadata_capture: {
       view: 'auth_metadata_capture',
-      title: 'Sign in to your account with <PROVIDER_TITLE>',
+      title: 'Sign in to your account with British Gas UK',
     },
     consent_capture: {
       view: 'consent_capture',
       title: 'Share your tariff',
     },
+    failed_login: {
+      view: 'failed_login',
+      title: 'Login failed',
+    },
+    mfa_capture: {
+      view: 'mfa_capture',
+      title: 'Enter OTP',
+    },
   },
-  appParams: /** @type AppParams */ {
+  appParams: {
     api_url: process.env.CONNECT_API_URL,
   },
-  providerHooks: /** @type ProviderHooks<Object> */ {
+  providerHooks: {
     authorise: authorise,
     capture: capture,
     convert: convert,

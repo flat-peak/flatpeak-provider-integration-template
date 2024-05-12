@@ -1,0 +1,28 @@
+<header class="pt-6 pb-3 px-6">
+    <div class="w-40 flex items-center justify-center">
+        <img src="{{provider.logo_url}}" alt="Logo" class="w-full h-full max-w-full max-h-full object-contain">
+    </div>
+</header>
+<article class="p-0 h-full w-full flex flex-col flex-1 relative overflow-auto font-book text-[17px] font-light leading-6">
+    <main class="main">
+        <div class="main__wrapper">
+            <div class="main__heading">
+                <h1 class="title">Uh oh, that didn't work</h1>
+            </div>
+            <p class="pl-0 pr-4 pb-12 max-w-xs lg:max-w-xs">
+				We couldn't sign you in with those details - one of them must be wrong.
+            </p>
+            <form class="form" id="retry" action="" method="get"></form>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <a href="/?fp_cot={{connect_token}}" class="button--secondary">Try Again</a>
+        <form class="footer__disclaimer" name="setup" action="/action?fp_cot={{connect_token}}" method="post">
+            <span>If you don’t know your login details or don’t want to provide them, you can <button class="button--as-link" type="submit">set your tariff manually.</button></span>
+            <input type="hidden" name="route" value="{{route}}">
+            <input type="hidden" name="action" value="DISMISS_DIRECT">
+        </form>
+    </footer>
+</article>
+

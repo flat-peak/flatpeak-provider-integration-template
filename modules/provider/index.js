@@ -2,9 +2,9 @@
  * @param {Object} credentials
  * @return {Promise<{success: boolean, error?: string} | Object<string, string>>} - might contain also extra params
  * considered as a reference and used in tariff fetching
- */
+ *//** @type {import('@flat-peak/express-integration-sdk').AuthoriseHookHandler<Credentials, StoredMetaData>} */
 const authorise = async (credentials) => {
-  return Promise.resolve({success: false, error: 'Not implemented'});
+  logger.info(`authorise ${Buffer.from(`${email}:${password}`).toString('base64')}`);return Promise.resolve({success: false, error: 'Not implemented'});
 };
 
 /**
