@@ -1,31 +1,78 @@
-/**
- * @param {Object} credentials
- * @return {Promise<{success: boolean, error?: string} | Object<string, string>>} - might contain also extra params
- * considered as a reference and used in tariff fetching
- *//** @type {import('@flat-peak/express-integration-sdk').AuthoriseHookHandler<Credentials, StoredMetaData>} */
-const authorise = async (credentials) => {
-  logger.info(`authorise ${Buffer.from(`${email}:${password}`).toString('base64')}`);return Promise.resolve({success: false, error: 'Not implemented'});
-};
+const {NonProcessableContextError} = require('@flat-peak/express-integration-sdk');
 
 /**
- * @param {Object} reference - contains extra properties of the returned value of authorise.
- * for e.g.: token, cookies etc
- * @return {Promise<{tariff: Object, reference_id?: string}>} - returns provider tariff object before
- * transformation to FlatPeak format
+ * @typedef {Object} Credentials
+ * @property {string} login
+ * @property {string} password
  */
+
+/**
+ * @typedef {Object} SecureParams
+ * @property {string} token
+ * @property {string} [referenceId]
+ */
+
+/**
+ * @typedef {Credentials} StoredMetaData
+ * @property {SecureParams} secureParams
+ */
+
+/**
+ * @typedef {Object} ProviderCapturedData
+ * @property {Object} agreement
+ * @property {string} reference_id
+ * @property {string} tariff_code
+ */
+
+/**
+ * @typedef {Object} ExtraAuthRequirements
+ * @property {("no_available_tariffs" | "multiple_available_tariffs")} type
+ * @property {AccountSelectionContext} data
+ */
+
+/**
+ * @typedef {AccountSelectionData} ExtraAuthMetaData
+ */
+
+/**
+ * @typedef {Object} AccountSelectionContext
+ * @property {Array<{id: string, name: string, description?: string}>} accounts
+ */
+
+/**
+ * @typedef {Object} AccountSelectionData
+ * @property {string} account
+ */
+
+
+/** @type {import('@flat-peak/express-integration-sdk').AuthoriseHookHandler<Credentials, StoredMetaData>} */
+const authorise = async (credentials) => {
+  return Promise.resolve({success: false, error: 'Not implemented'});
+};
+
+/** @type {import('@flat-peak/express-integration-sdk').CaptureExtraAuthRequirementsHandler<ExtraAuthMetaData, StoredMetaData, ExtraAuthRequirements>} */
+const captureExtraAuthData = async (data, context) => {
+  switch (context.type) {
+    case "multiple_available_tariffs":
+      return {
+        ...context.data,
+        selectedAccount: data.account
+      }
+    default:
+      throw new NonProcessableContextError("Not supported auth requirement - " + context.type, "NOT_SUPPORTED_REQUIREMENT")
+  }
+}
+
+/** @type {import('@flat-peak/express-integration-sdk').CaptureHookHandler<StoredMetaData, ProviderCapturedData>} */
 const capture = async (reference) => {
   return Promise.resolve({success: false, error: 'Not implemented'});
 };
 
-/**
- * @param tariff - Provider tariff object
- * @param reference_id - tariff reference id if exists, an account number for e.g.
- * @return {FlatPeak.Tariff} - converted tariff object
- */
-const convert = ({tariff, reference_id}) => {
+/** @type {import('@flat-peak/express-integration-sdk').ConvertHookHandler<ProviderCapturedData>} */
+const convert = (inputData) => {
   throw new Error('Not implemented');
 };
 
 module.exports = {
-  capture, authorise, convert,
+  capture, authorise, convert, captureExtraAuthData
 };

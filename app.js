@@ -7,8 +7,7 @@ const {create} = require('express-handlebars');
 const bodyParser = require('body-parser');
 const {logger} = require('./modules/logger');
 const {integrateProvider, errorHandler} = require('@flat-peak/express-integration-sdk');
-const {authorise, capture, convert} = require('./modules/provider');
-
+const {authorise, capture, convert, captureExtraAuthData} = require('./modules/provider');
 const app = express();
 
 // view engine setup
@@ -43,6 +42,15 @@ app.use(integrateProvider({
       view: 'failed_login',
       title: 'Login failed',
     },
+    // Extra routes
+    no_available_tariffs: {
+      view: 'no_available_tariffs',
+      title: 'No electricity tariff',
+    },
+    multiple_available_tariffs: {
+      view: 'multiple_available_tariffs',
+      title: 'Select your tariff',
+    },
     mfa_capture: {
       view: 'mfa_capture',
       title: 'Enter OTP',
@@ -53,6 +61,7 @@ app.use(integrateProvider({
   },
   providerHooks: {
     authorise: authorise,
+    captureExtraAuthData: captureExtraAuthData,
     capture: capture,
     convert: convert,
     logger: logger,

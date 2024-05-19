@@ -1,0 +1,36 @@
+<header class="pt-6 pb-3 px-6">
+    <div class="w-40 flex items-center justify-center">
+        <img src="{{provider.logo_url}}" alt="Logo" class="w-full h-full max-w-full max-h-full object-contain">
+    </div>
+</header>
+
+<form name="dismissDirect" id="dismissDirect" action="/action?fp_cot={{connect_token}}" method="post">
+    <input type="hidden" name="route" value="auth_metadata_capture">
+    <input type="hidden" name="action" value="DISMISS_DIRECT">
+</form>
+
+<form name="providerChange" id="providerChange" action="/action?fp_cot={{connect_token}}" method="post">
+    <input type="hidden" name="route" value="auth_metadata_capture">
+    <input type="hidden" name="action" value="PROVIDER_CHANGE">
+</form>
+
+<article class="p-0 h-full w-full flex flex-col flex-1 relative overflow-auto font-book text-[17px] font-light leading-6">
+    <main class="main">
+        <div class="main__wrapper">
+            <div class="main__heading">
+                <h1 class="title">No electricity tariff</h1>
+            </div>
+            <p class="pl-0 pr-4 pb-12 max-w-xs lg:max-w-xs_a40 text-[17px]">
+                We were unable to retrieve your electricity tariff.
+                <br/><br/>
+                This maybe because your electricity is supplied by a different provider.
+            </p
+        </div>
+    </main>
+    <footer class="footer">
+        <button id="submitControl" type="submit" form="dismissDirect" class="button--primary">Enter tariff manually</button>
+        <div class="footer__disclaimer">
+            <span>If you get electricity from another <button class="button--as-link" type="submit" form="providerChange">select different provider.</button></span>
+        </div>
+    </footer>
+</article>
