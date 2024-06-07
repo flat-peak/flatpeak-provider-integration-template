@@ -22,7 +22,7 @@ describe('<PROVIDER_TITLE> -> E2E', () => {
         const result = await request(app).post('/api/tariff_plan')
             .send({auth_metadata: {data: validCredentials}});
         console.log(result.body);
-        TariffSchema.parse(result.body);
+        TariffSchema.parse(result.body.tariff);
       }, 200000);
     });
   });
