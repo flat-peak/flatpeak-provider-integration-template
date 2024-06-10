@@ -11,7 +11,7 @@
                 <h1 class="title">Connect your account</h1>
             </div>
             <p class="pl-0 pr-4 pb-12 max-w-xs lg:max-w-xs">
-				By submitting your details, you will be sharing them with <strong class="font-medium">{{account.display_name}}</strong>. All data will be stored and processed in compliance with GDPR. View the <a href="{{account.policy_url}}" class="underline text-accent">full data protection policy.</a>.
+				By submitting your details, you will be sharing them with <strong class="font-medium">{{account.display_name}}</strong>. All data will be stored and processed in compliance with GDPR. View the <a href="{{account.privacy_url}}" class="underline text-accent">full data protection policy.</a>.
             </p>
             <form class="form" id="auth" action="/auth_metadata_capture?fp_cot={{connect_token}}" method="post">
                 <fieldset class="fieldset">
