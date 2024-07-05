@@ -15,6 +15,7 @@ const {NonProcessableContextError} = require('@flat-peak/express-integration-sdk
 /**
  * @typedef {Credentials} StoredMetaData
  * @property {SecureParams} secureParams
+ * @property {"IMPORT"|"EXPORT"} direction
  */
 
 /**
@@ -47,6 +48,17 @@ const {NonProcessableContextError} = require('@flat-peak/express-integration-sdk
 
 /** @type {import('@flat-peak/express-integration-sdk').AuthoriseHookHandler<Credentials, StoredMetaData>} */
 const authorise = async (credentials) => {
+	if (credentials.direction === "EXPORT") {
+		return {
+			data: {...credentials },
+			extraAuthRequirements: {
+				type: 'no_available_tariffs',
+				data: {
+					direction: credentials.direction
+				}
+			},
+		};
+	}
   return Promise.resolve({success: false, error: 'Not implemented'});
 };
 
