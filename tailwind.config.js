@@ -4,6 +4,7 @@ module.exports = {
   theme: {
     screens: {
       'sm': '442px',
+      'xh': { 'raw': '(min-height: 1000px)' },
     },
     extend: {
       fontFamily: {

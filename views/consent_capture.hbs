@@ -20,16 +20,11 @@
             </div>
             <div class="pl-0 pr-4 pb-12 max-w-xs lg:max-w-xs">
                 <p>
-                    <strong>{{account.display_name}}</strong> wants to access your account. This will allow them to:
+                    <strong class="font-medium">{{account.display_name}}</strong> wants to view your electricity tariff.
                 </p>
                 <br/>
-                <ul class="list-disc ml-5">
-                    <li>View your electricity tariff</li>
-                    <li>View your email and postal address</li>
-                </ul>
-                <br/>
                 <p>
-					Learn about how <strong>{{account.display_name}}</strong> will handle your data by reviewing their <a href="{{account.privacy_url}}">data protection policy</a> and <a href="{{account.terms_url}}">terms of service</a>.
+                    Review <a href="{{account.privacy_url}}" class="underline">data protection policy</a> and <a href="{{account.terms_url}}" class="underline">terms of service</a> to learn how your data is handled.
                 </p>
             </div>
         </div>
