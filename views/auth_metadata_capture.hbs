@@ -5,15 +5,16 @@
 </header>
 
 <article class="p-0 h-full w-full flex flex-col flex-1 relative overflow-auto font-book text-[17px] font-light leading-6">
-    <main class="main">
-        <div class="main__wrapper">
-            <div class="main__heading">
-                <h1 class="title">Connect your account</h1>
-            </div>
-            <p class="pl-0 pr-4 pb-12">
-                By submitting your details, you agree to share them with <strong class="font-medium">{{account.display_name}}</strong>. Your data will be securely stored and processed in compliance with GDPR. View the full <a href="{{account.privacy_url}}" class="underline">data protection policy</a>.
-            </p>
-            <form class="form" id="auth" action="/auth_metadata_capture?fp_cot={{connect_token}}" method="post">
+    <div id="loginForm" class="flex flex-col flex-1">
+        <main class="main">
+            <div class="main__wrapper">
+                <div class="main__heading">
+                    <h1 class="title">Connect your account</h1>
+                </div>
+                <p class="pl-0 pr-4 pb-12">
+                    By submitting your details, you agree to share them with <strong class="font-medium">{{account.display_name}}</strong>. Your data will be securely stored and processed in compliance with GDPR. View the full <a href="{{account.privacy_url}}" class="underline">data protection policy</a>.
+                </p>
+                <form class="form" id="auth" action="/auth_metadata_capture?fp_cot={{connect_token}}" method="post">
                 <fieldset class="fieldset">
                     <div class="text-field">
                         <input id="login-input" class="text-field__input" type="text" name="login" spellcheck="false" autocapitalize="none" placeholder="Login" value="{{demoLogin}}">
@@ -24,22 +25,77 @@
                         <label for="password-input" class="text-field__label">Password</label>
                     </div>
                 </fieldset>
+                </form>
+            </div>
+        </main>
+        <footer class="footer">
+            <button id="submitControl" type="submit" form="auth" class="button--primary">
+                Login
+            </button>
+            <form class="footer__disclaimer" name="setup" action="/action?fp_cot={{connect_token}}" method="post">
+                <span>
+                    If you don’t know your login details or don’t want to provide them, you can
+                    <button class="button--as-link" type="submit">set your tariff manually.</button>
+                </span>
+                <input type="hidden" name="route" value="auth_metadata_capture">
+                <input type="hidden" name="action" value="DISMISS_DIRECT">
             </form>
-        </div>
-    </main>
-    <footer class="footer">
-        <button id="submitControl" type="submit" form="auth" class="button--primary">
-            Login
-        </button>
-        <form class="footer__disclaimer" name="setup" action="/action?fp_cot={{connect_token}}" method="post">
-            <span>
-                If you don’t know your login details or don’t want to provide them, you can
-                <button class="button--as-link" type="submit">set your tariff manually.</button>
-            </span>
-            <input type="hidden" name="route" value="auth_metadata_capture">
-            <input type="hidden" name="action" value="DISMISS_DIRECT">
-        </form>
-    </footer>
+        </footer>
+    </div>
+    <div id="countdownForm" class="flex flex-col flex-1 hidden">
+        <main class="main flex flex-col flex-1">
+            <div class="main__wrapper flex flex-col flex-1">
+                <div class="main__heading">
+                    <h1 class="title">Please wait</h1>
+                </div>
+                <p class="pl-0 pr-4 pb-12">
+                    Connecting your account. This may take up to 1 minute. Please do not close or navigate away from this page.
+                </p>
+
+                <div class="flex justify-center items-center flex-1 py-4">
+                    <div class="relative w-36 h-36 mb-6">
+                        <svg class="w-full h-full transform rotate-[-90deg]" viewBox="0 0 150 150">
+                            <circle
+                                    class="text-black_a13"
+                                    cx="75"
+                                    cy="75"
+                                    r="65"
+                                    stroke-width="8"
+                                    fill="none"
+                                    stroke="currentColor"
+                            ></circle>
+                            <circle
+                                    class="text-accent"
+                                    cx="75"
+                                    cy="75"
+                                    r="65"
+                                    stroke-width="8"
+                                    fill="none"
+                                    stroke-dasharray="408"
+                                    stroke-dashoffset="0"
+                                    stroke-linecap="round"
+                                    stroke="currentColor"
+                            ></circle>
+                        </svg>
+                        <div
+                                id="countdown"
+                                class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 inset-0 flex items-center justify-center text-3xl text-black_a60 font-bold"
+                        >
+                            60
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <form name="dismiss" action="/action?fp_cot={{connect_token}}" method="post">
+                <button class="button--primary" type="submit">Set tariff manually</button>
+                <input type="hidden" name="route" value="auth_metadata_capture" />
+                <input type="hidden" name="action" value="DISMISS_DIRECT" />
+            </form>
+        </footer>
+    </div>
 </article>
 
 
@@ -50,6 +106,37 @@
         form.addEventListener("submit", function(event) {
             submitControl.classList.add("animate-fade")
             submitControl.setAttribute("disabled", "disabled");
+
+            const loginForm = document.getElementById("loginForm");
+            const countdownForm = document.getElementById("countdownForm");
+
+            loginForm.classList.add("hidden");
+            countdownForm.classList.remove("hidden");
+
+            const countdownElement = document.getElementById('countdown');
+            const progressCircle = document.querySelector("circle:nth-child(2)");
+            const circleRadius = 65;
+            const circumference = 2 * Math.PI * circleRadius;
+            const totalTime = 60;
+            let timeLeft = totalTime;
+            let countDownTimeout = null;
+            progressCircle.style.strokeDasharray = circumference;
+            progressCircle.style.strokeDashoffset = 0;
+
+            function updateCountdown() {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    countdownElement.textContent = timeLeft;
+                    const progress = (timeLeft / totalTime) * circumference;
+                    progressCircle.style.strokeDashoffset = circumference - progress;
+                    countDownTimeout = setTimeout(updateCountdown, 1000);
+                } else {
+                    clearTimeout(countDownTimeout);
+                    countdownElement.textContent = "--";
+                    progressCircle.style.strokeDashoffset = circumference;
+                }
+            }
+            updateCountdown();
         });
     });
 </script>
