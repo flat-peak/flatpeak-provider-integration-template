@@ -19,10 +19,10 @@
     <main class="main">
         <div class="main__wrapper">
             <div class="main__heading">
-                <h1 class="title">Select your tariff</h1>
+                <h1 class="title">{{labels.select_tariff_title}}</h1>
             </div>
             <p class="pl-0 pr-4 pb-12 max-w-xs lg:max-w-xs_a40 text-[17px]">
-                You have multiple contracts in your account. Which tariff/address would you like to connect?
+                {{labels.select_tariff_description}}
             </p>
             <div class="flex flex-col border-b border-black_a13">
                 {{#each accounts}}
@@ -35,9 +35,12 @@
         </div>
     </main>
     <footer class="footer">
-        <button id="submitControl" type="submit" form="dismissDirect" class="button--primary">My tariff is not listed</button>
+        <button id="submitControl" type="submit" form="dismissDirect" class="button--primary">
+            {{labels.tariff_not_listed_button}}
+        </button>
     </footer>
 </article>
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const selectedAccountField = document.getElementById("selectedAccount");

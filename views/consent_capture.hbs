@@ -16,24 +16,28 @@
     <main class="main">
         <div class="main__wrapper">
             <div class="main__heading">
-                <h1 class="title text-[44px]">Data sharing consent</h1>
+                <h1 class="title text-[44px]">{{labels.data_sharing_title}}</h1>
             </div>
             <div class="pl-0 pr-4 pb-12 max-w-xs lg:max-w-xs">
                 <p>
-                    <strong class="font-medium">{{account.display_name}}</strong> wants to view your electricity tariff.
+                   {{{interpolate labels.data_sharing_description account_display_name=account.display_name}}}
                 </p>
                 <br/>
                 <p>
-                    Review <a href="{{account.privacy_url}}" class="underline">data protection policy</a> and <a href="{{account.terms_url}}" class="underline">terms of service</a> to learn how your data is handled.
+                    {{{interpolate labels.data_sharing_policy
+                            privacy_url=account.privacy_url
+                            terms_url=account.terms_url
+                    }}}
                 </p>
             </div>
         </div>
     </main>
     <footer class="footer">
-        <button id="submitControl" type="submit" form="allow" class="button--primary">Allow</button>
-        <button type="submit" form="deny" class="button--ghost">Deny</button>
+        <button id="submitControl" type="submit" form="allow" class="button--primary">{{labels.data_sharing_allow_button}}</button>
+        <button type="submit" form="deny" class="button--ghost">{{labels.data_sharing_deny_button}}</button>
     </footer>
 </article>
+
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {

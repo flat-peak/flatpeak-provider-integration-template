@@ -1,3 +1,8 @@
+<form id="dismissDirect" name="dismissDirect" action="/action?fp_cot={{connect_token}}" method="post">
+    <input type="hidden" name="route" value="auth_metadata_capture" />
+    <input type="hidden" name="action" value="DISMISS_DIRECT" />
+</form>
+
 <header class="pt-6 pb-3 px-6">
     <div class="w-40 flex items-center justify-center">
         <img src="{{provider.logo_url}}" alt="Logo" class="w-full h-full max-w-full max-h-full object-contain">
@@ -9,20 +14,23 @@
         <main class="main">
             <div class="main__wrapper">
                 <div class="main__heading">
-                    <h1 class="title">Connect your account</h1>
+                    <h1 class="title">{{labels.connect_account_title}}</h1>
                 </div>
                 <p class="pl-0 pr-4 pb-12">
-                    By submitting your details, you agree to share them with <strong class="font-medium">{{account.display_name}}</strong>. Your data will be securely stored and processed in compliance with GDPR. View the full <a href="{{account.privacy_url}}" class="underline">data protection policy</a>.
+                    {{{interpolate labels.connect_account_description
+                                   account_name=account.display_name
+                                   privacy_policy_link=(interpolate labels.data_protection_policy_link privacy_url=account.privacy_url)
+                    }}}
                 </p>
                 <form class="form" id="auth" action="/auth_metadata_capture?fp_cot={{connect_token}}" method="post">
                 <fieldset class="fieldset">
                     <div class="text-field">
-                        <input id="login-input" class="text-field__input" type="text" name="login" spellcheck="false" autocapitalize="none" placeholder="Login" value="{{demoLogin}}">
-                        <label for="login-input" class="text-field__label">Login</label>
+                        <input id="login-input" class="text-field__input" type="text" name="login" spellcheck="false" autocapitalize="none" placeholder="{{labels.login_placeholder}}" value="{{demoLogin}}">
+                        <label for="login-input" class="text-field__label">{{labels.login_label}}</label>
                     </div>
                     <div class="text-field">
-                        <input id="password-input" class="text-field__input" type="password" autocapitalize="off" spellcheck="false" name="password" placeholder="Password" value="{{demoPassword}}">
-                        <label for="password-input" class="text-field__label">Password</label>
+                        <input id="password-input" class="text-field__input" type="password" autocapitalize="off" spellcheck="false" name="password" placeholder="{{labels.password_placeholder}}" value="{{demoPassword}}">
+                        <label for="password-input" class="text-field__label">{{labels.password_label}}</label>
                     </div>
                 </fieldset>
                 </form>
@@ -30,26 +38,19 @@
         </main>
         <footer class="footer">
             <button id="submitControl" type="submit" form="auth" class="button--primary">
-                Login
+                {{labels.login_button}}
             </button>
-            <form class="footer__disclaimer" name="setup" action="/action?fp_cot={{connect_token}}" method="post">
-                <span>
-                    If you don’t know your login details or don’t want to provide them, you can
-                    <button class="button--as-link" type="submit">set your tariff manually.</button>
-                </span>
-                <input type="hidden" name="route" value="auth_metadata_capture">
-                <input type="hidden" name="action" value="DISMISS_DIRECT">
-            </form>
+            <button class="button--ghost" form="dismissDirect" type="submit">{{labels.set_tariff_manually_button}}</button>
         </footer>
     </div>
-    <div id="countdownForm" class="flex flex-col flex-1 hidden">
+    <div id="countdownForm" class="flex-col flex-1 hidden">
         <main class="main flex flex-col flex-1">
             <div class="main__wrapper flex flex-col flex-1">
                 <div class="main__heading">
-                    <h1 class="title">Please wait</h1>
+                    <h1 class="title">{{{labels.wait_title}}}</h1>
                 </div>
                 <p class="pl-0 pr-4 pb-12">
-                    Connecting your account. This may take up to 1 minute. Please do not close or navigate away from this page.
+                    {{{labels.wait_description}}}
                 </p>
 
                 <div class="flex justify-center items-center flex-1 py-4">
@@ -87,13 +88,8 @@
                 </div>
             </div>
         </main>
-
         <footer class="footer">
-            <form name="dismiss" action="/action?fp_cot={{connect_token}}" method="post">
-                <button class="button--primary" type="submit">Set tariff manually</button>
-                <input type="hidden" name="route" value="auth_metadata_capture" />
-                <input type="hidden" name="action" value="DISMISS_DIRECT" />
-            </form>
+            <button class="button--primary" type="submit" form="dismissDirect">{{labels.set_tariff_manually_button}}</button>
         </footer>
     </div>
 </article>
@@ -112,6 +108,7 @@
 
             loginForm.classList.add("hidden");
             countdownForm.classList.remove("hidden");
+            countdownForm.classList.add("flex");
 
             const countdownElement = document.getElementById('countdown');
             const progressCircle = document.querySelector("circle:nth-child(2)");

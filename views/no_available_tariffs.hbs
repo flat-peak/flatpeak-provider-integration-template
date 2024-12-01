@@ -18,19 +18,15 @@
     <main class="main">
         <div class="main__wrapper">
             <div class="main__heading">
-                <h1 class="title">Electricity tariff not found</h1>
+                <h1 class="title">{{labels.tariff_not_found_title}}</h1>
             </div>
             <p class="pl-0 pr-4 pb-12 max-w-xs lg:max-w-xs_a40 text-[17px]">
-				We were unable to retrieve your electricity tariff.
-                <br/><br/>
-				This may be because your tariff is not available online or you have a contract with a different provider.
-            </p
+                {{{labels.tariff_not_found_description}}}
+            </p>
         </div>
     </main>
     <footer class="footer">
-        <button id="submitControl" type="submit" form="dismissDirect" class="button--primary">Enter tariff manually</button>
-        <div class="footer__disclaimer">
-            <span>Or <button class="button--as-link" type="submit" form="providerChange">select different provider.</button></span>
-        </div>
+        <button id="submitControl" type="submit" form="providerChange"  class="button--primary">{{labels.select_different_provider_button}}</button>
+        <button class="button--ghost" type="submit" form="dismissDirect">{{labels.set_tariff_manually_button}}</button>
     </footer>
 </article>

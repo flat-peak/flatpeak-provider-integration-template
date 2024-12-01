@@ -122,7 +122,8 @@ button:active, a:active {
 /* Buttons */
 .button--primary,
 .button--secondary,
-.button--ghost {
+.button--ghost,
+.button--failure {
     position: relative;
     cursor: pointer;
     border: none;
@@ -157,6 +158,12 @@ button:active, a:active {
     color: var(--accent-color);
     background-color: #ffffff;
     border: 1px solid var(--accent-color);
+}
+
+.button--failure {
+    color: #FA4D56;
+    background-color: #ffffff;
+    border: 1px solid  #ffffff;
 }
 
 .button--ghost {
@@ -244,4 +251,11 @@ button:active, a:active {
 
 .text-field__input::placeholder {
     color: transparent;
+}
+
+.theme-failure {
+    background-color: #FC7B83;
+    --color-typography-black: #ffffff;
+    --color-icon-primary100: #FA4D56;
+    --color-blurred-fade: #FC7B83;
 }

@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const {logger} = require('./modules/logger');
 const {integrateProvider, errorHandler} = require('@flat-peak/express-integration-sdk');
 const {authorise, capture, convert, captureExtraAuthData} = require('./modules/provider');
+const {setLocalisationMiddleware, locales, DEFAULT_LANG} = require("./modules/localisation/localisation.js");
 const app = express();
 
 // view engine setup
@@ -18,6 +19,16 @@ const hbs = create({
   extname: '.hbs',
   partialsDir: [path.join(views, 'layouts'), path.join(views, 'partials')],
   defaultLayout: 'base',
+  helpers: {
+    concat: (...args) => {
+      args.pop();
+      return args.join('');
+    },
+    interpolate: (string, context) => {
+      console.log('interpolate', string, context);
+      return string.replace(/\{\{(\w+)}}/g, (_, key) => context.hash[key] || '');
+    }
+  }
 });
 app.engine('.hbs', hbs.engine);
 app.set('view engine', '.hbs');
@@ -25,6 +36,7 @@ app.use(requestLogger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(setLocalisationMiddleware());
 
 // The `integrateProvider` router attaches /, /action, /auth_metadata_capture, /consent_capture
 // and /api/tariff_plan routes to the baseURL
@@ -32,28 +44,28 @@ app.use(integrateProvider({
   pages: {
     auth_metadata_capture: {
       view: 'auth_metadata_capture',
-      title: 'Sign in to your account with British Gas UK',
+      title: locales[DEFAULT_LANG].connect_account_title,
     },
     consent_capture: {
       view: 'consent_capture',
-      title: 'Share your tariff',
+      title: locales[DEFAULT_LANG].data_sharing_title,
     },
     failed_login: {
       view: 'failed_login',
-      title: 'Login failed',
+      title: locales[DEFAULT_LANG].login_error_title,
     },
     // Extra routes
     no_available_tariffs: {
       view: 'no_available_tariffs',
-      title: 'No electricity tariff',
+      title: locales[DEFAULT_LANG].tariff_not_found_title,
     },
     multiple_available_tariffs: {
       view: 'multiple_available_tariffs',
-      title: 'Select your tariff',
+      title: locales[DEFAULT_LANG].select_tariff_title,
     },
     mfa_capture: {
       view: 'mfa_capture',
-      title: 'Enter OTP',
+      title: locales[DEFAULT_LANG].one_time_code_title,
     },
   },
   appParams: {

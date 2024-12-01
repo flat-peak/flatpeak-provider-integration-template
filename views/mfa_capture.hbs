@@ -1,0 +1,47 @@
+<form id="dismissDirect" name="dismissDirect" action="/action?fp_cot={{connect_token}}" method="post">
+    <input type="hidden" name="route" value="auth_metadata_capture" />
+    <input type="hidden" name="action" value="DISMISS_DIRECT" />
+</form>
+
+<header class="pt-6 pb-3 px-6">
+    <div class="w-40 flex items-center justify-center">
+        <img src="{{provider.logo_url}}" alt="Logo" class="w-full h-full max-w-full max-h-full object-contain">
+    </div>
+</header>
+<article class="p-0 h-full w-full flex flex-col flex-1 relative overflow-auto font-book text-[17px] font-light leading-6">
+    <main class="main">
+        <div class="main__wrapper">
+            <div class="main__heading">
+                <h1 class="title">{{labels.one_time_code_title}}</h1>
+            </div>
+            <p class="pl-0 pr-4 pb-12 max-w-xs lg:max-w-xs_a40 text-[17px]">
+                {{{interpolate labels.one_time_code_description provider_display_name=provider.display_name}}}
+            </p>
+            <form class="form" id="auth" action="/extra_auth_metadata_capture?fp_cot={{connect_token}}" method="post">
+            <fieldset class="fieldset">
+                <div class="text-field">
+                    <input id="otpCode" class="text-field__input" type="text" name="otpCode" spellcheck="false" autocapitalize="none" placeholder="{{labels.one_time_code_placeholder}}" value="{{demoLogin}}">
+                    <label for="otpCode" class="text-field__label">{{labels.one_time_code_label}}</label>
+                </div>
+                <input id="context" type="hidden" name="context" value="{{context}}">
+            </fieldset>
+            </form>
+        </div>
+    </main>
+    <footer class="footer">
+        <button id="submitControl" type="submit" form="auth" class="button--primary">
+            {{labels.submit_button}}
+        </button>
+        <button class="button--ghost" form="dismissDirect" type="submit">{{labels.set_tariff_manually_button}}</button>
+    </footer>
+</article>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const form = document.getElementById("auth");
+        const submitControl = document.getElementById("submitControl");
+        form.addEventListener("submit", function(event) {
+            submitControl.classList.add("animate-fade");
+            submitControl.setAttribute("disabled", "disabled");
+        });
+    });
+</script>
