@@ -25,7 +25,6 @@ const hbs = create({
       return args.join('');
     },
     interpolate: (string, context) => {
-      console.log('interpolate', string, context);
       return string.replace(/\{\{(\w+)}}/g, (_, key) => context.hash[key] || '');
     }
   }

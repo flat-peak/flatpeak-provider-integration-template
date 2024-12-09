@@ -42,13 +42,15 @@
 </article>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+ document.addEventListener("DOMContentLoaded", function() {
         const selectedAccountField = document.getElementById("selectedAccount");
         const selectTariffForm = document.getElementById("selectTariff");
         const options = document.querySelectorAll("[data-account-id]");
         options.forEach((option) => {
-            selectedAccountField.value = option.dataset.accountId;
-            selectTariffForm.submit();
+            option.addEventListener('click', (e) => {
+                selectedAccountField.value = option.dataset.accountId;
+                selectTariffForm.submit();
+            })
         });
     });
 </script>
