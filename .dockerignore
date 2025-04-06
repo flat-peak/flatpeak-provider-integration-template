@@ -21,3 +21,4 @@
 **/values.dev.yaml
 README.md
 **/.idea
+.env*
