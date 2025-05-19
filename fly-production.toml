@@ -1,0 +1,45 @@
+app = "<app name>"
+kill_signal = "SIGINT"
+kill_timeout = 5
+primary_region = "<region>"
+processes = []
+
+[env]
+  CLOUDWATCH_GROUP_NAME = "/production/app/provider/<provider>"
+  CONNECT_API_URL = "https://connect.flatpeak.com"
+  SENTRY_DSN = "https://c76b9639a5e76e9c75e7da69ab1396e8@o4507057116020736.ingest.us.sentry.io/4507610594410496"
+
+[experimental]
+  allowed_public_ports = []
+  auto_rollback = true
+
+[[services]]
+  http_checks = []
+  internal_port = 8080
+  processes = ["app"]
+  protocol = "tcp"
+  script_checks = []
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"
+
+  [[services.ports]]
+    force_https = true
+    handlers = ["http"]
+    port = 80
+
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.tcp_checks]]
+    grace_period = "1s"
+    interval = "15s"
+    restart_limit = 0
+    timeout = "2s"
+
+[[vm]]
+  memory = '256mb'
+  cpu_kind = 'shared'
+  cpus = 1
